@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ruido_en_silencio // 16 y cansada</title>
+    <!-- Fuentes estéticas / Gen Z vibe -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --text-color: #f1f1f1;
+            --accent-pink: #ff2a85;
+            --accent-purple: #9d4edd;
+            --accent-yellow: #ffbe0b;
+            --card-bg: #1a1a1a;
+            --border-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier Prime', monospace;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Ruido de fondo sutil (efecto textura) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1000&auto=format&fit=crop') repeat;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        header {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            border-bottom: 2px dashed var(--border-color);
+        }
+
+        .glitch-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 7vw, 6rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            color: #fff;
+            position: relative;
+            text-shadow: 3px 3px var(--accent-pink), -3px -3px var(--accent-purple);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subtitle {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+        }
+
+        .subtitle span {
+            color: var(--accent-yellow);
+            background: rgba(255, 190, 11, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* Stickers y notas adhesivas locas */
+        .sticky-note {
+            position: absolute;
+            background: var(--accent-yellow);
+            color: #000;
+            padding: 1rem;
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            width: 180px;
+            transform: rotate(-5deg);
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            display: none; /* Se activa en pantallas grandes */
+        }
+
+        @media(min-width: 900px) {
+            .sticky-note { display: block; }
+            .note-1 { top: 15%; left: 10%; transform: rotate(-8deg); }
+            .note-2 { bottom: 20%; right: 10%; transform: rotate(12deg); background: var(--accent-pink); color: #fff; }
+        }
+
+        /* Contenido Principal */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+        }
+
+        h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--accent-pink);
+            padding-left: 1rem;
+            color: #fff;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+        }
+
+        .card h3 {
+            font-family: 'Syne', sans-serif;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        /* Sección de desahogo / Citas reales */
+        .quote-box {
+            background: linear-gradient(135deg, #1f1f1f, #111);
+            border: 2px dashed var(--accent-purple);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 15px;
+            margin: 3rem 0;
+        }
+
+        .quote-box blockquote {
+            font-size: 1.4rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .quote-box cite {
+            color: var(--accent-pink);
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        /* Sección Interactiva: Lo que dicen vs Lo que sentimos */
+        .vs-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media(min-width: 768px) {
+            .vs-container { grid-template-columns: 1fr 1fr; }
+        }
+
+        .vs-column {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .vs-column.adults {
+            border-top: 4px solid #666;
+        }
+
+        .vs-column.teens {
+            border-top: 4px solid var(--accent-pink);
+        }
+
+        .vs-column h3 {
+            font-family: 'Syne', sans-serif;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .vs-column ul {
+            list-style: none;
+        }
+
+        .vs-column li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        .vs-column.adults li::before {
+            content: "❌";
+            position: absolute;
+            left: 0;
+        }
+
+        .vs-column.teens li::before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid var(--border-color);
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .signature {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--accent-pink);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="sticky-note note-1">"Es solo una etapa, a tu edad yo no sufría de nada" 🙄 jajasí claro.</div>
+        <div class="sticky-note note-2">Nadie te prepara para sentirse tan solo en una habitación llena de gente.</div>
+        
+        <h1 class="glitch-title">Nadie ve el incendio</h1>
+        <p class="subtitle">Un espacio donde <span>no nos van a decir que "es por el celular"</span> ni que estamos exagerando.</p>
+    </header>
+
+    <main>
+        <!-- Sección 1: Lo que cargamos -->
+        <section>
+            <h2>Lo que los adultos llaman "dramas"</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>La presión invisible</h3>
+                    <p>Deciden tu futuro a los 15 años con un examen o una carrera que "da plata". Si te equivocas, sientes que arruinaste tu vida entera antes de empezar a vivirla.</p>
+                </div>
+                <div class="card">
+                    <h3>El algoritmo de la perfección</h3>
+                    <p>No es solo estar pegados al teléfono; es abrir Instagram y ver que todos tienen amigos, éxito, cuerpos perfectos y vidas increíbles, mientras tú apenas puedes levantarte de la cama los lunes.</p>
+                </div>
+                <div class="card">
+                    <h3>Ansiedad y vacío</h3>
+                    <p>Te duele el pecho, te cuesta respirar y cuando intentas decirlo te responden: *“¿De qué te vas a estresar si no pagas renta?”*. Como si el dolor necesitara una factura para ser real.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: El choque de realidades (Adultos vs Adolescentes) -->
+        <section>
+            <h2>El eterno choque de realidades</h2>
+            <div class="vs-container">
+                <div class="vs-column adults">
+                    <h3>Lo que ven los adultos (o fingen ver)</h3>
+                    <ul>
+                        <li>"Es una rebeldía pasajera porque le contestó mal a su mamá."</li>
+                        <li>"Todo es culpa de las redes sociales y los jueguitos."</li>
+                        <li>"En mis tiempos uno trabajaba duro y no andaba con depresiones raritas."</li>
+                        <li>"Se la pasa encerrado en su cuarto porque es un maleducado."</li>
+                    </ul>
+                </div>
+                <div class="vs-column teens">
+                    <h3>Lo que realmente está pasando</h3>
+                    <ul>
+                        <li>Estamos intentando descubrir quiénes somos mientras el mundo se cae a pedazos económicamente y socialmente.</li>
+                        <li>Nos aislamos porque afuera nadie nos escucha sin juzgarnos o darnos un sermón de 2 horas.</li>
+                        <li>Lloramos en silencio en la ducha para que nadie en la casa se ponga a gritar o a minimizarlo.</li>
+                        <li>Tenemos miedo del futuro, de no encajar, y de ser una decepción constante.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloque de desahogo -->
+        <div class="quote-box">
+            <blockquote>"Lo peor no es estar triste, lo peor es que te hagan sentir culpable por estarlo. Como si estuvieras cometiendo un delito por no sonreír todo el tiempo."</blockquote>
+            <cite>— Pensado a las 3:00 a.m. en una libreta rayada</cite>
+        </div>
+
+        <!-- Sección 3: Un llamado urgente -->
+        <section>
+            <h2>Lo único que pedimos</h2>
+            <div class="card" style="border-color: var(--accent-pink);">
+                <h3 style="color: var(--accent-pink);">No minimices</h3>
+                <p>No te pedimos que soluciones todos nuestros problemas, porque a veces ni nosotras mismas los entendemos. Solo te pedimos que nos mires a los ojos y digas: <strong>"Te creo, sé que duele, y estoy aquí"</strong>. Sin regaños, sin comparaciones con tu adolescencia de hace 30 años, sin culpar al bendito celular. Solo un poco de empatía real.</p>
+            </div>
+        </section>
+    </main>
+
+
+<!-- SECCIÓN 4: un poco de lo que sentimos -->
+        <section>
+            <h2>Un poco de lo que sentimos realmente</h2>
+            <div class="grid-cards">
+                <div class="card" style="border-color: var(--accent-yellow);">
+                    <h3 style="color: var(--accent-yellow);">La confianza</h3>
+                    <p>Los padres nos piden confianza, pero cuando por fin te abres, usan tus miedos como chiste o sermón. Después se preguntan por qué ya no les contamos nada y preferimos el silencio,y nos hacen sentir culpables por no contarles nada.</p>
+                </div>
+                <div class="card" style="border-color: var(--accent-purple);">
+                    <h3 style="color: var(--accent-purple);">Guardar las formas</h3>
+                    <p>Aguantarte las ganas de llorar en medio de una clase o una cena familiar porque sabes que si lo haces, la pregunta incómoda no tardará en llegar.</p>
+                </div>
+                <div class="card" style="border-color: var(--accent-pink);">
+                    <h3 style="color: var(--accent-pink);">Seguir intentándolo</h3>
+                    <p>A pesar de que a veces todo se siente inútil, abrir los ojos al día siguiente y buscar una canción, un chat o un refugio que te haga sentir un poco menos sola.</p>
+               
+       
+                </div>
+            </div>
+        </section>
+       </main>
+
+
+ <footer>
+        <p>Hecho por alguien de 16 años que está cansada de gritar en voz baja.</p>
+        <p class="signature">si me lees, gracias por intentar entender.</p>
+    </footer>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
